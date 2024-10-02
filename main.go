@@ -2,26 +2,37 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
-// https://lega.sfs-bayern.de/cgi-perl/lega-display.pl
-
-//TIP To run your code, right-click the code and select <b>Run</b>. Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.
-
-func main() {
-	//TIP Press <shortcut actionId="ShowIntentionActions"/> when your caret is at the underlined or highlighted text
-	// to see how GoLand suggests fixing it.
-	s := "gopher"
-	fmt.Printf("Hello and welcome, %s!\n", s)
-
-	for i := 1; i <= 5; i++ {
-		//TIP You can try debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-		// for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>. To start your debugging session,
-		// right-click your code in the editor and select the <b>Debug</b> option.
-		fmt.Println("i =", 100/i)
+func ExampleScrape() {
+	// Request the HTML page.
+	res, err := http.Get("http://metalsucks.net")
+	if err != nil {
+		log.Fatal(err)
 	}
+	defer res.Body.Close()
+	if res.StatusCode != 200 {
+		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+	}
+
+	// Load the HTML document
+	doc, err := goquery.NewDocumentFromReader(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Find the review items
+	doc.Find(".left-content article .post-title").Each(func(i int, s *goquery.Selection) {
+		// For each item found, get the title
+		title := s.Find("a").Text()
+		fmt.Printf("Review %d: %s\n", i, title)
+	})
 }
 
-//TIP See GoLand help at <a href="https://www.jetbrains.com/help/go/">jetbrains.com/help/go/</a>.
-// Also, you can try interactive lessons for GoLand by selecting 'Help | Learn IDE Features' from the main menu.
+func main() {
+	ExampleScrape()
+}
