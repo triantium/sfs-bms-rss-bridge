@@ -13,7 +13,7 @@ func GenerateAtom(courses []Course) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(atom)
+	//fmt.Println(atom)
 	return atom
 }
 
@@ -23,7 +23,7 @@ func GenerateRSS(courses []Course) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(rss)
+	//fmt.Println(rss)
 	return rss
 }
 
@@ -33,7 +33,7 @@ func GenerateJSON(courses []Course) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(json)
+	//fmt.Println(json)
 	return json
 }
 
