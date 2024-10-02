@@ -7,7 +7,8 @@ import (
 
 func main() {
 	courses := util.Scrape()
-	for i, c := range courses {
-		fmt.Printf("Courses %d: %s\n", i, c)
-	}
+	util.GenerateRSS(courses)
+	util.GenerateAtom(courses)
+	util.GenerateJSON(courses)
+	fmt.Println("Done!")
 }
