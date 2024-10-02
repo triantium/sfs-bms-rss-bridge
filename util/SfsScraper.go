@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
+	"github.com/djimenez/iconv-go"
 	"log"
 	"net/http"
 	"regexp"
@@ -19,7 +20,6 @@ type Course struct {
 }
 
 func Scrape() []Course {
-	// Request the HTML page.
 	res, err := http.Get("https://lega.sfs-bayern.de/cgi-perl/lega-display.pl")
 	if err != nil {
 		log.Fatal(err)
@@ -29,22 +29,29 @@ func Scrape() []Course {
 		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
 	}
 
-	// Load the HTML document
-	doc, err := goquery.NewDocumentFromReader(res.Body)
+	utfBody, err := iconv.NewReader(res.Body, "iso-8859-1", "utf-8")
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Load the HTML document
+	doc, err := goquery.NewDocumentFromReader(utfBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Link zur Kursübersicht, nicht zur Anmeldung
 	linkpattern := "https://www.sfsg.de/lehrgaenge/lehrgangsangebot/detailansicht/%s/"
 
 	courses := make([]Course, 0)
-	// Find Courses
+	// Finde Lehrgänge
 	doc.Find("table.klein>tbody>tr>td[width=\"40%\"]").Each(func(i int, s *goquery.Selection) {
-		// For each item found, get the title
+
 		coursenumber, exists := s.Find("input[name=\"LgNr\"]").Attr("value")
 
 		if exists {
-			//fmt.Printf("Review %d: %s\n", i, coursenumber)
+			// Gehen wir mal davon aus das alles mit Lehrgangsnummer auch eine valide Zeile ist.
+			// Mögliche UTF-8 Zeichen ^^
 			coursename, _ := s.Find("input[name=\"Lehrgang\"]").Attr("value")
 			pattern := regexp.MustCompile(`^.+-.+-(.+)-.+-.+$`)
 			ctype := pattern.ReplaceAllString(coursenumber, "$1")
@@ -52,10 +59,9 @@ func Scrape() []Course {
 			end, _ := s.Find("input[name=\"Ende\"]").Attr("value")
 			free, _ := s.Find("input[name=\"Gesamt\"]").Attr("value")
 			link := fmt.Sprintf(linkpattern, ctype)
+
 			c := Course{coursenumber, coursename, ctype, start, end, free, link}
 			courses = append(courses, c)
-
-			// fmt.Printf("Course %d: %s\n", i, c)
 		}
 
 	})
