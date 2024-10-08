@@ -40,8 +40,10 @@ func GenerateJSON(courses []Course) string {
 func generateFeed(courses []Course) *feeds.Feed {
 	now := time.Now()
 	feed := &feeds.Feed{
-		Title:   "SFS-LEGA-FEED",
-		Link:    &feeds.Link{Href: "https://lega.sfs-bayern.de/"},
+		Title: "Lehrgänge der SFS Bayern",
+		Link:  &feeds.Link{Href: "https://lega.sfs-bayern.de/"},
+		Id:    "https://lega.sfs-bayern.de/", // -> https://datatracker.ietf.org/doc/html/rfc3987
+
 		Created: now,
 	}
 
@@ -49,8 +51,8 @@ func generateFeed(courses []Course) *feeds.Feed {
 		feed.Items = append(feed.Items, &feeds.Item{
 			Title:       c.course,
 			Link:        &feeds.Link{Href: c.link},
-			Id:          c.coursenumber,
-			Content:     fmt.Sprintf("Lehrgang: %s\nBeginn: %s\nEnde: %s\nFreie Plätze: %s", c.course, c.start, c.end, c.free),
+			Id:          c.coursenumber, // -> https://datatracker.ietf.org/doc/html/rfc3987
+			Content:     fmt.Sprintf("Lehrgang: %s<br/>Beginn: %s<br/>Ende: %s<br/>Freie Plätze: %s", c.course, c.start, c.end, c.free),
 			Description: c.coursetype,
 		})
 	}
