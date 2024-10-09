@@ -3,7 +3,6 @@ package data
 import (
 	"fmt"
 	"github.com/go-co-op/gocron/v2"
-	"lega-bridge/util"
 	"os"
 )
 
@@ -29,7 +28,7 @@ func SetUpCron() (gocron.Scheduler, error) {
 		gocron.NewTask(
 			func() {
 				fmt.Println("Updating Courses")
-				UpdateCourses(util.Scrape())
+				UpdateCourses(Scrape())
 			},
 		),
 	)

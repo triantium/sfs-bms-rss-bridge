@@ -1,4 +1,4 @@
-package util
+package data
 
 import (
 	"fmt"
@@ -8,16 +8,6 @@ import (
 	"net/http"
 	"regexp"
 )
-
-type Course struct {
-	coursenumber string
-	course       string
-	coursetype   string
-	start        string
-	end          string
-	free         string
-	link         string
-}
 
 func Scrape() []Course {
 	res, err := http.Get("https://lega.sfs-bayern.de/cgi-perl/lega-display.pl")
