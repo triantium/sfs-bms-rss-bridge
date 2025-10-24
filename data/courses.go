@@ -13,6 +13,7 @@ type Course struct {
 	End          string
 	Free         string
 	Link         string
+	Place        string
 }
 
 var courses = Scrape()

@@ -2,10 +2,11 @@ package util
 
 import (
 	"fmt"
-	"github.com/gorilla/feeds"
 	"lega-bridge/data"
 	"log"
 	"time"
+
+	"github.com/gorilla/feeds"
 )
 
 func GenerateAtom(courses []data.Course) string {
@@ -42,8 +43,8 @@ func generateFeed(courses []data.Course) *feeds.Feed {
 	now := time.Now()
 	feed := &feeds.Feed{
 		Title:   "Lehrgänge der SFS Bayern",
-		Link:    &feeds.Link{Href: "https://lega.sfs-bayern.de/"},
-		Id:      "https://lega.sfs-bayern.de/", // -> https://datatracker.ietf.org/doc/html/rfc3987
+		Link:    &feeds.Link{Href: "https://www.bms-fw.bayern.de/Navigation/Public/LastMinute.aspx"},
+		Id:      "https://www.bms-fw.bayern.de/", // -> https://datatracker.ietf.org/doc/html/rfc3987
 		Created: now,
 	}
 
@@ -52,7 +53,7 @@ func generateFeed(courses []data.Course) *feeds.Feed {
 			Title:       c.CourseName,
 			Link:        &feeds.Link{Href: c.Link},
 			Id:          c.CourseNumber, // -> https://datatracker.ietf.org/doc/html/rfc3987
-			Content:     fmt.Sprintf("Lehrgang: %s<br/>Beginn: %s<br/>Ende: %s<br/>Freie Plätze: %s", c.CourseName, c.Start, c.End, c.Free),
+			Content:     fmt.Sprintf("Lehrgang: %s<br/>Beginn: %s<br/>Ende: %s<br/>Schulungsort: %s</br>Freie Plätze: %s", c.CourseName, c.Start, c.End, c.Place, c.Free),
 			Description: c.CourseType,
 		})
 	}
