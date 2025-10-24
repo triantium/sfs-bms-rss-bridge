@@ -9,7 +9,7 @@ RUN go mod download
 COPY . ./
 
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /sfs-bridge
+RUN GOOS=linux go build -o /sfs-bridge
 
 FROM gcr.io/distroless/base-debian12 AS build-release-stage
 
