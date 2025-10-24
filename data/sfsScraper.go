@@ -62,9 +62,9 @@ func Scrape() []Course {
 		link := fmt.Sprintf(linkpattern, ctype)
 
 		c := Course{coursenumber, coursename, ctype, start, end, free, link, place}
+		//fmt.Printf("Lehrgang %d: %s, %s\n", i, coursenumber, coursename)
 		courses = append(courses, c)
 
-		fmt.Printf("Row %d: %s, %s\n", i, coursenumber, coursename)
 	}
 
 	return courses

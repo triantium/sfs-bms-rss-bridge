@@ -5,7 +5,6 @@ go 1.23
 toolchain go1.25.3
 
 require (
-	github.com/PuerkitoBio/goquery v1.10.0
 	github.com/djimenez/iconv-go v0.0.0-20160305225143-8960e66bd3da
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-co-op/gocron/v2 v2.12.1
