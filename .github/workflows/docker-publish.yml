@@ -30,7 +30,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@318604b99e75e41977312d83839a89be02ca4893
+        uses: docker/metadata-action@ed95091677497158a9ff38b314264cd965388d5e
         with:
           images: triantium/${{ github.repository }}
 
