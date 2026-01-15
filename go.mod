@@ -2,7 +2,7 @@ module lega-bridge
 
 go 1.24.0
 
-toolchain go1.25.3
+toolchain go1.25.6
 
 require (
 	github.com/djimenez/iconv-go v0.0.0-20160305225143-8960e66bd3da
