@@ -7,7 +7,7 @@ toolchain go1.25.3
 require (
 	github.com/djimenez/iconv-go v0.0.0-20160305225143-8960e66bd3da
 	github.com/gin-gonic/gin v1.11.0
-	github.com/go-co-op/gocron/v2 v2.17.0
+	github.com/go-co-op/gocron/v2 v2.19.1
 	github.com/gorilla/feeds v1.2.0
 )
 
